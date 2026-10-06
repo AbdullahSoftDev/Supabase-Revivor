@@ -7,15 +7,18 @@ const TABLE = "keepalive";
 export default async () => {
   for (let i = 1; i <= MAX_PROJECTS; i++) {
     const url = process.env[`SUPABASE_URL_${i}`];
-    const key = process.env[`SUPABASE_KEY_${i}`];
+    const key =
+      process.env[`SUPABASE_KEY_${i}`] ||
+      process.env[`SUPABASE_PUBLISHABLE_KEY_${i}`];
     if (!url || !key) continue;
 
     const base = `${url.replace(/\/$/, "")}/rest/v1/${TABLE}`;
     const headers = {
       apikey: key,
-      Authorization: `Bearer ${key}`,
       "Content-Type": "application/json",
     };
+    // Legacy JWT keys (eyJ...) need the Bearer header; new sb_publishable_ keys must not have it
+    if (key.startsWith("eyJ")) headers.Authorization = `Bearer ${key}`;
 
     try {
       // 1. remove previous data
