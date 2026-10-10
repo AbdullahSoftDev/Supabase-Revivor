@@ -22,7 +22,7 @@
 
 ## ✨ Overview
 
-**Supabase Revivor** is a lightweight, serverless keep-alive utility for Supabase projects.
+**Supabase Revivor** is a lightweight serverless Supabase keep-alive utility that periodically checks a configured project with a scheduled Netlify Function. It is designed as a simple JavaScript example of scheduled database health checks and Supabase project activity monitoring.
 
 It uses a **Netlify Scheduled Function** to make a real database request against each configured Supabase project once every day. Each run removes the previous heartbeat and writes a fresh timestamped row to the `keepalive` table.
 
